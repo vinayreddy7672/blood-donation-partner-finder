@@ -29,6 +29,26 @@ Visualization: Chart.js
 3. Open browser:
    http://localhost:3000
 
+   ## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](homepage.img.png)
+
+### 📝 Donor Registration Page
+![Donor Registration](donor_registrationpage.img.png)
+
+### 🔎 Donor Finder Page
+![Donor Finder](donor_finderpage.img.png)
+
+### 🔐 Admin Login Page
+![Admin Login](admin_login_page.img.png)
+
+### 📊 Admin Analytical Dashboard
+![Admin Dashboard](admin-analytical-dashboard.img.png)
+
+### 🧾 Donation Records Page
+![Donation Records](donation-records-page.img.png)
+
 ## 🌐 Deployment
 
 Demonstrated using Ngrok for public access.
