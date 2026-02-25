@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <script>
+localStorage.removeItem("adminLoggedIn");
+</script>
+
+<nav class="navbar">
+  <h2>🩸 Admin Login</h2>
+</nav>
+
+<div class="form-card">
+
+  <h2>Admin Login 🔐</h2>
+
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+
+  <button onclick="login()" class="btn primary full">
+    Login
+  </button>
+
+</div>
+
+<script>
+async function login() {
+
+  const res = await fetch("/admin-login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      username: user.value,
+      password: pass.value
+    })
+  });
+
+  const msg = await res.text();
+
+  if (msg === "SUCCESS") {
+
+    // ⭐ Save login state
+    localStorage.setItem("adminLoggedIn", "true");
+
+    location.href = "admin.html";
+  }
+  else {
+    alert(msg);
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Become a Donor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <h2>🩸 Life Saver</h2>
+  <a href="index.html">Home</a>
+</nav>
+
+<div class="form-card">
+
+  <h2>Become a Blood Donor ❤️</h2>
+
+  <form id="donorForm">
+
+    <input id="name" placeholder="Full Name" required>
+
+    <select id="blood" required>
+      <option value="">Select Blood Group</option>
+      <option>A+</option><option>A-</option>
+      <option>B+</option><option>B-</option>
+      <option>O+</option><option>O-</option>
+      <option>AB+</option><option>AB-</option>
+    </select>
+
+    <input id="age" type="number" placeholder="Age" required>
+
+    <input id="phone" placeholder="Phone Number" required>
+
+    <input id="city" placeholder="City" required>
+
+    <label class="checkbox">
+      <input type="checkbox" id="availability">
+      Available for donation now
+    </label>
+
+    <button class="btn primary full">Register</button>
+
+  </form>
+
+</div>
+
+<script>
+document.getElementById("donorForm").onsubmit = async e => {
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    blood_group: document.getElementById("blood").value,
+    age: document.getElementById("age").value,
+    phone: document.getElementById("phone").value,
+    city: document.getElementById("city").value,
+    availability: document.getElementById("availability").checked ? 1 : 0
+  };
+
+  const res = await fetch("/register", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  const msg = await res.text();
+
+  if (msg === "SUCCESS") {
+    alert("Registered Successfully 🩸");
+    location.href = "index.html";
+  } else {
+    alert(msg);
+  }
+};
+</script>
+
+</body>
+</html>

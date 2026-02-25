@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- 🔐 LOGIN PROTECTION -->
+<script>
+if (localStorage.getItem("adminLoggedIn") !== "true") {
+  alert("Please login first 🔐");
+  location.href = "admin-login.html";
+}
+</script>
+
+<nav class="navbar">
+  <h2>📊 Admin Dashboard</h2>
+</nav>
+
+<div class="form-card">
+
+  <!-- ================= CHARTS ================= -->
+
+  <h3>📊 Donor Analytics</h3>
+
+  <div class="chart-box">
+    <canvas id="bloodChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <canvas id="availabilityChart"></canvas>
+  </div>
+
+
+  <!-- ================= BROADCAST ================= -->
+
+  <h3>🚨 Emergency Broadcast</h3>
+
+  <textarea id="msg"
+    placeholder="Type emergency message..."></textarea>
+
+  <button onclick="broadcast()" class="primary">
+    Send Alert
+  </button>
+
+
+  <!-- ================= DONOR MANAGEMENT ================= -->
+
+  <h3>🩸 All Donors</h3>
+
+  <button onclick="loadDonors()" class="secondary">
+    Load Donors
+  </button>
+
+  <button onclick="logout()" class="danger">
+    Logout
+  </button>
+  <h3>🩸 Record New Donation</h3>
+
+<input id="donorId" placeholder="Donor ID">
+<input id="donorName" placeholder="Donor Name">
+<input id="bloodType" placeholder="Blood Type">
+<input id="quantity" placeholder="Quantity (ml)">
+<input id="patient" placeholder="Patient Name">
+<input id="hospital" placeholder="Hospital">
+
+<button onclick="recordDonation()" class="primary">
+  Record Donation
+</button>
+
+  <div id="donorList"></div>
+
+</div>
+
+
+<script>
+   async function recordDonation() {
+
+  await fetch("/donate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      donor_id: donorId.value,
+      donor_name: donorName.value,
+      blood_type: bloodType.value,
+      quantity: quantity.value,
+      date: new Date().toISOString().split("T")[0],
+      patient: patient.value,
+      hospital: hospital.value
+    })
+  });
+
+  alert("Donation Recorded 🩸");
+
+  /* 🧹 RESET ALL FIELDS */
+
+  donorId.value = "";
+  donorName.value = "";
+  bloodType.value = "";
+  quantity.value = "";
+  patient.value = "";
+  hospital.value = "";
+}
+
+/* ================= LOAD DONORS ================= */
+
+async function loadDonors() {
+
+  const res = await fetch("/donors");
+  const data = await res.json();
+
+  const list = document.getElementById("donorList");
+  list.innerHTML = "";
+
+  data.forEach(d => {
+
+    list.innerHTML += `
+      <div class="donor-card">
+        <h3>${d.full_name}</h3>
+        <p>🩸 ${d.blood_type} — 📍 ${d.city}</p>
+        <p>📞 ${d.contact_number}</p>
+        <p>Available: ${d.is_available ? "Yes" : "No"}</p>
+
+        <button onclick="deleteDonor(${d.donor_id})"
+          class="danger">Delete</button>
+
+        <button onclick="toggle(${d.donor_id}, ${d.is_available})"
+          class="secondary">Toggle Availability</button>
+      </div>
+    `;
+  });
+}
+
+
+/* ================= DELETE ================= */
+
+async function deleteDonor(id) {
+
+  await fetch(`/donor/${id}`, { method: "DELETE" });
+
+  loadDonors();
+}
+
+
+/* ================= TOGGLE ================= */
+
+async function toggle(id, cur) {
+
+  await fetch(`/donor/${id}`, {
+    method: "PUT",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ available: cur ? 0 : 1 })
+  });
+
+  loadDonors();
+}
+
+
+/* ================= BROADCAST ================= */
+
+async function broadcast() {
+
+  const msg = document.getElementById("msg");
+
+  if (!msg.value.trim()) {
+    alert("Enter message first ❗");
+    return;
+  }
+
+  await fetch("/broadcast", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ message: msg.value })
+  });
+
+  alert("Alert sent to all donors 📢");
+  msg.value = "";
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout() {
+  localStorage.removeItem("adminLoggedIn");
+  location.href = "admin-login.html";
+}
+
+
+/* ================= CHARTS ================= */
+
+/* BLOOD GROUP CHART */
+
+async function loadBloodChart() {
+
+  const res = await fetch("/blood-stats");
+  const data = await res.json();
+
+  const labels = data.map(d => d.blood_type);
+  const counts = data.map(d => d.count);
+
+  new Chart(document.getElementById("bloodChart"), {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Donors by Blood Group",
+        data: counts
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+}
+
+
+/* AVAILABILITY CHART */
+
+async function loadAvailabilityChart() {
+
+  const res = await fetch("/analytics");
+  const d = await res.json();
+
+  new Chart(document.getElementById("availabilityChart"), {
+    type: "pie",
+    data: {
+      labels: ["Available", "Not Available"],
+      datasets: [{
+        data: [
+          d.available,
+          d.total - d.available
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+}
+
+
+/* LOAD CHARTS */
+
+loadBloodChart();
+loadAvailabilityChart();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find Blood</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <h2>🩸 Life Saver</h2>
+  <a href="index.html">Home</a>
+</nav>
+
+<div class="form-card">
+
+  <h2>Find Blood Donors 🔍</h2>
+
+  <select id="blood">
+    <option value="">Select Blood Group</option>
+    <option>A+</option><option>A-</option>
+    <option>B+</option><option>B-</option>
+    <option>O+</option><option>O-</option>
+    <option>AB+</option><option>AB-</option>
+  </select>
+
+  <input id="city" placeholder="Enter City">
+
+  <button class="btn primary full" onclick="search()">
+    Search Donors
+  </button>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+async function search() {
+
+  const bloodVal = encodeURIComponent(
+    document.getElementById("blood").value
+  );
+
+  const cityVal = encodeURIComponent(
+    document.getElementById("city").value
+  );
+
+  const res = await fetch(
+    `/search?blood_group=${bloodVal}&city=${cityVal}`
+  );
+
+  const data = await res.json();
+
+  const r = document.getElementById("result");
+  r.innerHTML = "";
+
+  if (data.length === 0) {
+    r.innerHTML = "<p>No donors found</p>";
+    return;
+  }
+
+  data.forEach(d => {
+    r.innerHTML += `
+      <div class="donor-card">
+        <h3>${d.full_name}</h3>
+        <p>🩸 ${d.blood_type}</p>
+        <p>📍 ${d.city}</p>
+        <p>📞 ${d.contact_number}</p>
+      </div>`;
+  });
+}
+</script>
+
+</body>
+</html>

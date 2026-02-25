@@ -1,0 +1,210 @@
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #ff4b5c, #ff7a18);
+  min-height: 100vh;
+  color: #333;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background: rgba(0,0,0,0.85);
+  color: white;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+/* ===== CARD CONTAINER ===== */
+.form-card {
+  background: white;
+  width: 900px;
+  max-width: 95%;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* ===== TITLES ===== */
+h2 {
+  margin-top: 0;
+  color: #e53935;
+}
+
+/* ===== INPUTS ===== */
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* ===== BUTTONS ===== */
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 5px;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Primary button */
+.primary {
+  background: linear-gradient(45deg, #ff4b5c, #ff7a18);
+  color: white;
+}
+
+/* Secondary */
+.secondary {
+  background: #555;
+  color: white;
+}
+
+/* Danger */
+.danger {
+  background: #e53935;
+  color: white;
+}
+
+/* ===== STATS BOX ===== */
+#stats {
+  background: #fff3f3;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* ===== DONOR CARDS ===== */
+.donor-card {
+  background: #fff8f8;
+  padding: 15px;
+  margin-top: 15px;
+  border-left: 6px solid #e53935;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.donor-card h3 {
+  margin: 0 0 5px;
+  color: #d32f2f;
+}
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+/* HERO BUTTONS */
+.hero-buttons .btn {
+  margin: 10px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* FEATURES */
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+.feature {
+  background: white;
+  padding: 20px;
+  width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0,0,0,0.8);
+  color: white;
+}
+/* FORM HEADING */
+.form-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* INPUT FIELDS */
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #ff4b5c;
+  box-shadow: 0 0 8px rgba(255,75,92,0.4);
+}
+
+/* CHECKBOX */
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+/* FULL BUTTON */
+.full {
+  width: 100%;
+  margin-top: 15px;
+}
+canvas {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+/* ===== CHART CONTAINER ===== */
+
+.chart-box {
+  width: 600px;
+  max-width: 100%;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: 320px !important;
+}
